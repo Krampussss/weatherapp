@@ -8,29 +8,36 @@ const sky = document.getElementById("skyDisplay");
 const skyImage = document.getElementById("image");
 const countryName = new Intl.DisplayNames(['en'], {type: 'region'});
 
-async function fetchData()
-{
+document.getElementById("myForm").addEventListener("submit", (e) => {
+    e.preventDefault();
+
     if(city.value !== "")
     {
-        try {
-            const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city.value}&appid=${apiKey}`)
-            if(!response.ok)
-            {
-                throw new Error("Couldnt fetch resource");
-            }
-            else {
-                const data = await response.json();
-                checkInput(data);
-            }
-        } catch (error) {
-            console.error(error)
-            alert("Oops! Something went wrong");
-        }
+        fetchData();
     }
     else {
         alert("Please enter a city name");
     }
+})
+
+async function fetchData()
+{
+    try {
+        const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city.value}&appid=${apiKey}`)
+        if(!response.ok)
+        {
+            throw new Error("Couldnt fetch resource");
+        }
+        else {
+            const data = await response.json();
+            checkInput(data);
+        }
+    } catch (error) {
+        console.error(error)
+        alert("Oops! Something went wrong");
+    }
 }
+
 
 function checkInput(data)
 {
@@ -47,7 +54,6 @@ function checkInput(data)
 function displayData(data)
 {
     console.log(data);
-    document.querySelector('.container').style.visibility = "visible";
     citytd.innerText = data.name;
     countrytd.innerText = `${countryName.of(data.sys.country)}`
     temperature.innerText = Math.round(((data.main.temp * 100) / 100) - 273) + "°C";

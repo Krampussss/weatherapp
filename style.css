@@ -19,7 +19,6 @@ body {
 }
 
 .container {
-    visibility: hidden;
     background: #CAF0F8;
     display: flex;
     flex-direction: column;

@@ -1,4 +1,6 @@
 const apiKey = "ad2602838dcf4459b3ff577047f83cb3";
+let intervalID;
+const timetd = document.getElementById("timeDisplay");
 const city = document.getElementById("city");
 const citytd = document.getElementById("cityDisplay");
 const countrytd = document.getElementById("countryDisplay");
@@ -61,4 +63,19 @@ function displayData(data)
     sky.innerText = "Sky: " + data.weather[0].main;
     const iconUrl = `https://openweathermap.org/img/wn/${data.weather[0].icon}.png`;
     skyImage.style.background = "url(" + iconUrl + ")";
+    updateTime(data.timezone);
+    clearInterval(intervalID);
+    intervalID = setInterval(() => {updateTime(data.timezone)},1000);
+}
+
+
+function updateTime(timezoneOffset) {
+    const time = new Date();
+    const utc = time.getTime() + (time.getTimezoneOffset() * 60000);
+    const localTime = new Date(utc + (1000 * timezoneOffset));
+    const hour = localTime.getHours().toString().padStart(2, 0);
+    const minute = localTime.getMinutes().toString().padStart(2, 0);
+    const second = localTime.getSeconds().toString().padStart(2,0);
+    const timeNow = `${hour}:${minute}:${second}`;
+    timetd.innerText = timeNow;
 }

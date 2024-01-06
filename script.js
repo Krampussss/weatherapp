@@ -43,7 +43,7 @@ async function fetchData()
 
 function checkInput(data)
 {
-    if(city.value == countryName.of(data.sys.country).toLowerCase())
+    if(city.value.toLowerCase() == countryName.of(data.sys.country).toLowerCase())
     {
         alert("Please enter a city name");
     }
